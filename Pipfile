@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pillow = "*"
+
+[dev-packages]
+django = "*"
+django-rest-framework = "*"
+mysqlclient = "*"
+django-taggit = "*"
+djangorestframework-simplejwt = "*"
+django-ckeditor = "*"
+django-rest-passwordreset = "*"
+
+[requires]
+python_version = "3.10"
