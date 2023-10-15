@@ -12,7 +12,7 @@ class Post(models.Model):
     likes = models.ManyToManyField(User, related_name='likes')
     user_creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False)
 
-    def likes_blog_count(self):
+    def likes_posts_count(self):
         return self.likes.count()
     
     def __str__(self):
