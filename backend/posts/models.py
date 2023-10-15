@@ -22,4 +22,13 @@ class Post(models.Model):
         else:
             return f'Title: {self.title} / Tags: {self.tags}'
         
-# Agregar comentarios
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    body = RichTextField()
+    created_date_comment = models.DateField(auto_now=True, null=False, blank=False)
+    likes_comment = models.ManyToManyField(User, related_name='post_comment_likes')
+    user_creator_comment = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def likes_blog_count(self):
+        return self.likes_comment.count()
