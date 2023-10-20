@@ -1,25 +1,21 @@
-<div align="center">
+<h1 align="center">REST API Posts</h1>
 
-<h1>REST API Posts 🖥️</h1>
+<h4 align="center">A small API that handles Post, Comments and Profiles.</h4>
 
-</div>
-
-<div align="center" style="display: flex; flex-direction: column; align-items: center;">
-
-![Static Badge](https://img.shields.io/badge/python-3.10.11-yellow?style=flat-square&logo=python&color=%23f7e185)
-
-![Static Badge](https://img.shields.io/badge/django-4.2.4-greenlight?style=flat-square&logo=django&color=%2342b883)
-
-![Static Badge](https://img.shields.io/badge/django_rest_framework-3.14.0-yellow?style=flat-square&logo=django%20rest%20framework&color=%23f95959)
-
-</div>
-
-### This REST API provides operations for managing posts, comments, and profiles.
-
-## Table of content 📋
-
-* ### [Instalation](#installation)
-* ### [Configuration](#configuration)
+<p align="center">
+  <a href="https://badge.fury.io/js/electron-markdownify">
+    <img src="https://img.shields.io/badge/Django-green?style=flat-square&logo=django&logoColor=white&labelColor=%2342b883&color=%2342b883"
+            alt="Django">
+  </a>
+  <a href="https://gitter.im/amitmerchant1990/electron-markdownify">
+          <img src="https://img.shields.io/badge/Django_Rest_Framework-red?style=flat-square&logo=django&logoColor=white&labelColor=%23f95959&color=%23f95959"
+                  alt="Django Rest Fremework">
+  </a>
+  <a href="https://saythanks.io/to/bullredeyes@gmail.com">
+      <img src="https://img.shields.io/badge/Python-yellow?style=flat-square&logo=python&logoColor=white&labelColor=%235585b5&color=%23fcff82"
+              alt="Python">
+  </a>
+</p>
 
 ## Features
 
