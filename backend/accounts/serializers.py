@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
+from .models import Profile   
 
 class RegisterSerializer(serializers.ModelSerializer):
 
@@ -49,6 +50,35 @@ class RegisterSerializer(serializers.ModelSerializer):
             first_name = validated_data['first_name'],
             last_name = validated_data['last_name']
         )
+        profile_user = Profile.objects.create(
+            user=user
+        )
         user.set_password(validated_data['password2'])
         user.save()
+        profile_user.save()
         return user
+    
+
+class ProfileSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Profile
+        fields = ['username_profile', 'img_profile', 'genders', 'custom_genre', 'description_profile']
+        read_only = ['id', 'followers', 'user']
+        extra_kwargs = {
+            'username_profile' : {'required': False},
+            'img_profile' : {'required': False},
+            'genders' : {'required' : False},
+            'custom_genre' : {'required' : False},
+            'description_profile' : {'required' : False},
+        }
+
+    def validate_username(self, validated_data):
+        if len(validated_data['username_profile']) < 2:
+            raise serializers.ValidationError('The username must be greater than 2 characters')
+        return validated_data
+    
+    def validate_custom_genre(self, validated_data):
+        if len(validated_data['custom_genre']) < 2:
+            raise serializers.ValidationError('The gender greater than 2 letters, for example: They/Them, She/They, etc...')
+        return validated_data

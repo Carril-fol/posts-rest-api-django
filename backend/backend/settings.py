@@ -45,19 +45,23 @@ INSTALLED_APPS = [
     'ckeditor',
     'rest_framework',
     'rest_framework_simplejwt',
-    'django_rest_passwordreset',
     'posts',
-    'accounts'
+    'accounts',
+    'utils',
+    'bs4',
+    'drf_yasg',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -87,11 +91,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'posts_rest_api',
-        'USER': 'root',
-        'PASSWORD': '2337',
-        'HOST': '127.0.0.1', 
-        'PORT': '3306',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '', 
+        'PORT': '',
     }
 }
 
@@ -137,20 +141,19 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Django Taggit Setting
+# Django Taggit settings
 
 TAGGIT_CASE_INSENSITIVE = True
 
-# Django Rest Framework
+# Django Rest Framework settings
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    ]
 }
 
-# Simple JWT
+# Simple JWT settings
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=180),
@@ -192,11 +195,24 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
-# Django Rest Framework Reset Password
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# Swagger settings
 
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'folco.carril@gmail.com'
-EMAIL_HOST_USER = 'your_email_username' #Agregar username
-EMAIL_HOST_PASSWORD = 'smjk xcmb fdrd mihg'
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,
+    'APIS_SORTER': 'alpha', 
+    'OPERATIONS_SORTER': 'method',
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        }
+    },
+    'VALIDATOR_URL': None, 
+    'SUPPORTED_SUBMIT_METHODS': ['get'],
+    'JSON_EDITOR': False,
+    'SHOW_REQUEST_HEADERS': True, 
+    'SHOW_EXTENSIONS': True,
+}
+
+# Cors Headers settings
+
+CORS_ALLOWED_ORIGINS = []

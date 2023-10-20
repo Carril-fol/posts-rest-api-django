@@ -1,20 +1,23 @@
-from rest_framework.decorators import permission_classes, api_view, renderer_classes
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.renderers import JSONRenderer
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.decorators import authentication_classes
+
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 from .serializers import PostSerializer, CommentSerializer
 from .models import Post, Comment
+from accounts.models import Profile
 
 """
 Posts Views
 """
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
 def create_post(request):
     serializer = PostSerializer(data=request.data)
     if serializer.is_valid():
@@ -22,8 +25,9 @@ def create_post(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['PATCH'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
 def update_post(request, post_id):
     user_post = get_object_or_404(Post, id=post_id)
     serializer = PostSerializer(instance=user_post, data=request.data)
@@ -32,8 +36,9 @@ def update_post(request, post_id):
         return Response({'message':'Post updated successfully'}, status=status.HTTP_200_OK)
     return ResourceWarning(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
 def get_post(request, post_id):
     try:
         user_post = get_object_or_404(Post, id=post_id)
@@ -41,15 +46,17 @@ def get_post(request, post_id):
     except Post.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+
 @api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
 def delete_post(request, post_id):
     user_post = get_object_or_404(Post, id=post_id)
     user_post.delete()  
     return Response({'message':'Post deleted'}, status=status.HTTP_200_OK)
 
+
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
 def detail_post(request, post_id):
     try:
         post = get_object_or_404(Post, id=post_id)
@@ -83,12 +90,32 @@ def detail_post(request, post_id):
     except Post.DoesNotExist:
         return Response({'message': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
 
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+def get_all_posts(request):
+    user = request.user
+    profile = get_object_or_404(Profile, id=user.pk)
+    followed_users = profile.follows.all()
+    posts = Post.objects.filter(user_creator=followed_users)
+    posts_data = []
+    for post in posts:
+        post_info = {
+            'id' : post.pk,
+            'title': post.title,
+            'description': post.description,
+            'tags': post.tags,
+            'user_creator': post.user_creator
+        }
+        posts_data.append(post_info)
+    return Response({'Posts': post_info}, status=status.HTTP_200_OK)
+
 """
 Comment Views
 """
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
 def create_comment(request, post_id):
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid():
@@ -97,8 +124,9 @@ def create_comment(request, post_id):
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['PATCH'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
 def update_comment(request, comment_id):
     comment_user_posted = get_object_or_404(Comment, id=comment_id)
     serializer = CommentSerializer(instance=comment_user_posted, data=request.data)
@@ -108,8 +136,9 @@ def update_comment(request, comment_id):
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
 def delete_comment(request, comment_id):
     try:
         comment_user_posted = get_object_or_404(Comment, id=comment_id)
@@ -118,12 +147,13 @@ def delete_comment(request, comment_id):
     except Comment.DoesNotExist:
         return Response({'message':'The comment does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
+
 """
 Likes Views
 """
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
 def like_posts(request, post_id, user_id):
     liked = False
     get_id_user = get_object_or_404(User, id=user_id)
@@ -142,9 +172,10 @@ def like_posts(request, post_id, user_id):
         'Title': post.title, 
         'Description': post.description
         }, status=status.HTTP_200_OK)
-    
+
+  
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
 def like_comment(request, comment_id, user_id):
     liked = False
     get_id_user = get_object_or_404(User, id=user_id)

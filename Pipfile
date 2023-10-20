@@ -14,6 +14,9 @@ django-taggit = "*"
 djangorestframework-simplejwt = "*"
 django-ckeditor = "*"
 django-rest-passwordreset = "*"
+beautifulsoup4 = "*"
+drf-yasg = "*"
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.10"
