@@ -4,11 +4,7 @@
 
 </div>
 
-### This REST API provides operations for managing posts, comments, and profiles.
-
-## Technologies
-
-<div align="center">
+<div align="center" style="display: flex; flex-direction: column; align-items: center;">
 
 ![Static Badge](https://img.shields.io/badge/python-3.10.11-yellow?style=flat-square&logo=python&color=%23f7e185)
 
@@ -17,6 +13,8 @@
 ![Static Badge](https://img.shields.io/badge/django_rest_framework-3.14.0-yellow?style=flat-square&logo=django%20rest%20framework&color=%23f95959)
 
 </div>
+
+### This REST API provides operations for managing posts, comments, and profiles.
 
 ## Table of content 📋
 
