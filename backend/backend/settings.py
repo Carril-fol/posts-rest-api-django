@@ -91,11 +91,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '', 
-        'PORT': '',
+        'NAME': 'posts_rest_api',
+        'USER': 'root',
+        'PASSWORD': '2337',
+        'HOST': '127.0.0.1', 
+        'PORT': '3306',
     }
 }
 

@@ -12,7 +12,7 @@ class Post(models.Model):
     description = RichTextField(null=True, blank=True)
     tags = TaggableManager()
     likes = models.ManyToManyField(Profile, related_name='likes')
-    user_creator = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=False)
+    profile_creator = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=False)
 
     def likes_posts_count(self):
         likes_count = self.likes.count()
@@ -39,7 +39,7 @@ class Comment(models.Model):
     body = RichTextField()
     created_date_comment = models.DateField(auto_now=True, null=False, blank=False)
     likes_comment = models.ManyToManyField(Profile, related_name='post_comment_likes')
-    user_creator_comment = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    profile_comment_creator = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
     def likes_blog_count(self):
         return self.likes_comment.count()

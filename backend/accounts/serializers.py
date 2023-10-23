@@ -33,15 +33,15 @@ class RegisterSerializer(serializers.ModelSerializer):
             'email' : {'required' : True}
         }
 
-    def validate_email(self, email):
-        if '@' not in email:
+    def validate_email(self, validated_data):
+        if '@' not in validated_data:
             raise serializers.ValidationError('It is not an email. Please enter again')
-        return email
+        return validated_data
     
-    def validate_passwords(self, data):
-        if data['password'] != data['password2']:
+    def validate_password2(self, password2):
+        if self.initial_data['password'] != password2:
             raise serializers.ValidationError('Passwords don`t match')
-        return data
+        return password2
     
     def create(self, validated_data):
         user = User.objects.create(
@@ -79,6 +79,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         return validated_data
     
     def validate_custom_genre(self, validated_data):
-        if len(validated_data['custom_genre']) < 2:
-            raise serializers.ValidationError('The gender greater than 2 letters, for example: They/Them, She/They, etc...')
+        if validated_data is not None:
+            gender = validated_data['custom_genre']
+            if len(gender) < 2:
+                raise serializers.ValidationError('The gender greater than 2 letters, for example: They/Them, She/They, etc...')
+        else:
+            return validated_data
         return validated_data
