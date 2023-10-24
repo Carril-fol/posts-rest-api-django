@@ -60,7 +60,7 @@ Profile Views
 class ProfileUpdate(APIView):
     authentication_classes = (JWTAuthentication,)
 
-    def post(self, request, profile_id):
+    def update(self, request, profile_id):
         profile_user = get_object_or_404(Profile, id=profile_id)
         serializer = ProfileSerializer(instance=profile_user, data=request.data)
         if serializer.is_valid():

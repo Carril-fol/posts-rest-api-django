@@ -6,11 +6,11 @@ from rest_framework.decorators import authentication_classes
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-from django.db.models import Q
 
 from .serializers import PostSerializer, CommentSerializer
 from .models import Post, Comment
 from accounts.models import Profile
+
 
 """
 Posts Views
@@ -110,6 +110,7 @@ def get_all_posts(request):
         posts_data.append(post_info)
     return Response({'Posts': post_info}, status=status.HTTP_200_OK)
 
+
 """
 Comment Views
 """
@@ -151,6 +152,7 @@ def delete_comment(request, comment_id):
 """
 Likes Views
 """
+
 
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])
